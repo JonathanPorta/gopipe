@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+  "services"
 )
 
 type Message struct {
@@ -34,17 +35,6 @@ type Message struct {
 		Dockerfile       string
 		Repo_name        string
 	}
-}
-
-type Service func(Message)
-
-var services = map[string]Service{
-	"dockerhub": Dockerhub,
-}
-
-func Dockerhub(m Message) {
-	spew.Dump(m)
-	log.Println("docker!")
 }
 
 func main() {
