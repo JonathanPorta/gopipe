@@ -6,7 +6,7 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"log"
 	"net/http"
-  "strings"
+	"strings"
 )
 
 type Message struct {
@@ -38,34 +38,36 @@ type Message struct {
 
 type Service func(Message)
 
-var services = map[string] Service {
-  "dockerhub": Dockerhub,
+var services = map[string]Service{
+	"dockerhub": Dockerhub,
 }
 
 func Dockerhub(m Message) {
-  spew.Dump(m)
-  log.Println("docker!")
+	spew.Dump(m)
+	log.Println("docker!")
 }
 
 func main() {
-  http.HandleFunc("/", handler)
-  http.ListenAndServe(":3000", nil)
+	http.HandleFunc("/", handler)
+	http.ListenAndServe(":3000", nil)
 }
 
 func handler(response http.ResponseWriter, request *http.Request) {
-  log.Println(request.Method, request.URL.Path)
-  if(request.Method == "POST") {
-    serviceName := strings.Split(request.URL.Path, "/")[1]
-    service,ok := services[serviceName]
-    if(ok) {
-      decoder := json.NewDecoder(request.Body)
-      var m Message
-      err := decoder.Decode(&m)
-      if err != nil { panic(err) }
-      service(m)
-    } else {
-      log.Println("No service found: ", serviceName)
-    }
-  }
-  fmt.Fprintf(response, "Hi there, I love %s!", request.URL.Path[1:])
+	log.Println(request.Method, request.URL.Path)
+	if request.Method == "POST" {
+		serviceName := strings.Split(request.URL.Path, "/")[1]
+		service, ok := services[serviceName]
+		if ok {
+			decoder := json.NewDecoder(request.Body)
+			var m Message
+			err := decoder.Decode(&m)
+			if err != nil {
+				panic(err)
+			}
+			service(m)
+		} else {
+			log.Println("No service found: ", serviceName)
+		}
+	}
+	fmt.Fprintf(response, "Hi there, I love %s!", request.URL.Path[1:])
 }
