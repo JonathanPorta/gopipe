@@ -1,0 +1,29 @@
+{
+  "push_data": {
+    "pushed_at": 1415833039,
+    "images": [
+      "imagehash1",
+      "imagehash2",
+      "imagehash3"
+    ],
+    "pusher": "jonathanporta"
+  },
+  "callback_url": "https:\/\/registry.hub.docker.com\/u\/jonathanporta\/verb-api\/hook\/2111a041cj1fe4aefj11i4d0jb0242eg1100ic\/",
+  "repository": {
+    "status": "Active",
+    "description": "",
+    "is_trusted": true,
+    "full_description": "Verb API\n======\n\n[![Build Status](https:\/\/travis-ci.org\/JonathanPorta\/verb-api.svg?branch=master)](https:\/\/travis-ci.org\/JonathanPorta\/verb-api)\n[![Coverage Status](https:\/\/coveralls.io\/repos\/JonathanPorta\/verb-api\/badge.png)](https:\/\/coveralls.io\/r\/JonathanPorta\/verb-api)\n\nServer       | Watch\/LiveReload\/Tests\/Lint\n-------------|----------------------------\n`$ rails s`  | `$ guard`\n\nWhen using the `$ guard` file-watcher, installing [LiveReload Extension](https:\/\/chrome.google.com\/webstore\/detail\/livereload\/jnihajbhpnppcggbcgedagnkighmdlei) for Chrome will automatically refresh the browser on file-changes.\n\nFirst-time install\n------------------\n\nInstall system dependencies:\n* Ruby\/Bundler (probably via RVM)\n* Postgres\n* PhantomJS\n\nThen install the application:\n\n```bash\nbundle install # install dependencies\nbundle exec rake db:setup # setup the database\nbundle exec rails server # start the server\n# visit http:\/\/localhost:3000\n```\n",
+    "repo_url": "https:\/\/registry.hub.docker.com\/u\/jonathanporta\/verb-api\/",
+    "owner": "jonathanporta",
+    "is_official": false,
+    "is_private": false,
+    "name": "verb-api",
+    "namespace": "jonathanporta",
+    "star_count": 1,
+    "comment_count": 1,
+    "date_created": 1413162904,
+    "dockerfile": "FROM phusion\/passenger-ruby21:0.9.14\n\n# Set correct environment variables.\nENV HOME \/root\nENV RAILS_ENV production\n\nADD . \/home\/app\n\n# Make sure we didn't accidentally include a pid file.\nRUN \/bin\/bash -c -l 'rm -f \/home\/app\/tmp\/pids\/server.pid'\n\nWORKDIR \/home\/app\nRUN \/bin\/bash -c -l 'gem install foreman'\nRUN \/bin\/bash -c -l 'bundle install'\n\n# Clean up APT when done.\nRUN apt-get clean && rm -rf \/var\/lib\/apt\/lists\/* \/tmp\/* \/var\/tmp\/*\n\nEXPOSE 80\n\nCMD \/bin\/bash -c -l 'cd \/home\/app && bundle exec rake db:create && bundle exec rake db:migrate && foreman run bundle exec rails server -p 80'\n",
+    "repo_name": "jonathanporta\/verb-api"
+  }
+}
